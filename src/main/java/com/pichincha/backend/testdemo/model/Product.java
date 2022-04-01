@@ -19,4 +19,5 @@ public class Product {
     private Long id;
     private String description;
     private Double valor;
+
 }

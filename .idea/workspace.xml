@@ -4,9 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
+<<<<<<< HEAD
     <list default="true" id="41c4a918-bd3a-4a25-9557-31a8efc720b1" name="Changes" comment="add Model Product">
       <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
     </list>
+=======
+    <list default="true" id="41c4a918-bd3a-4a25-9557-31a8efc720b1" name="Changes" comment="add Model Product" />
+>>>>>>> Master
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />

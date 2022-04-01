@@ -1,5 +1,7 @@
 package com.tcsdemo.servicerest.controller;
 
+import com.tcsdemo.servicerest.dto.ProductDto;
+import com.tcsdemo.servicerest.exception.ProductException;
 import com.tcsdemo.servicerest.model.Product;
 import com.tcsdemo.servicerest.service.ProductService;
 import lombok.AllArgsConstructor;
@@ -18,7 +20,7 @@ public class ProductController {
     private final ProductService productService;
 
     @GetMapping
-    public ResponseEntity<List<Product>> getAllProducts(){
+    public ResponseEntity<List<ProductDto>> getAllProducts(){
         try {
             return new ResponseEntity<>(productService.getProducts(), HttpStatus.OK);
         } catch (Exception e) {
@@ -27,20 +29,20 @@ public class ProductController {
     }
 
     @PostMapping
-    public ResponseEntity<Product> saveProduct(@RequestBody Product product){
+    public ResponseEntity<ProductDto> saveProduct(@RequestBody ProductDto productDto){
         try {
-            return new ResponseEntity<>(productService.saveProduct(product), HttpStatus.OK);
+            return new ResponseEntity<>(productService.saveProduct(productDto), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @PutMapping(value="{id}")
-    public ResponseEntity<Product> updateProduct(@PathVariable Long id , @RequestBody Product product ){
+    public ResponseEntity<ProductDto> updateProduct(@PathVariable Long id , @RequestBody ProductDto productDto ){
         try {
-            return new ResponseEntity<>(productService.updateProduct(id,product), HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(productService.updateProduct(id,productDto), HttpStatus.OK);
+        } catch (ProductException e) {
+            return new ResponseEntity(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
     }

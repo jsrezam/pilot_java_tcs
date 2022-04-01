@@ -1,10 +1,14 @@
 package com.tcsdemo.servicerest.service.impl;
 
+import com.tcsdemo.servicerest.dto.ProductDto;
+import com.tcsdemo.servicerest.exception.ProductException;
 import com.tcsdemo.servicerest.model.Product;
 import com.tcsdemo.servicerest.repository.ProductRepository;
 import com.tcsdemo.servicerest.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -18,28 +22,35 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<Product> getProducts() {
-        return productRepository.findAll();
+    public List<ProductDto> getProducts() {
+        ArrayList<ProductDto> productsDto = new ArrayList<ProductDto>();
+
+        productRepository.findAll()
+                .forEach(product -> {
+                    productsDto.add(product.getAsDto());
+                });
+
+        return productsDto;
     }
 
     @Override
-    public Product saveProduct(Product product) {
-        return productRepository.save(product);
+    public ProductDto saveProduct(ProductDto productDto) {
+        return productRepository.save(productDto.getAsEntity()).getAsDto();
     }
 
     @Override
-    public Product updateProduct(Long id, Product product) {
+    public ProductDto updateProduct(Long id, ProductDto productDto) throws ProductException {
 
         Product productBdd = productRepository.findById(id).orElse(null);
 
         if (productBdd == null )
-            return null;
+            throw new ProductException("No exists");
 
-        productBdd.setName( product.getName() );
-        productBdd.setDescription( product.getDescription() );
-        productBdd.setSize( product.getSize() );
+        productBdd.setName( productDto.getName() );
+        productBdd.setDescription( productDto.getDescription() );
+        productBdd.setSize( productDto.getSize() );
 
-        return productRepository.save(productBdd);
+        return productRepository.save(productBdd).getAsDto();
     }
 
     @Override
